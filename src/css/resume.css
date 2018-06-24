@@ -1,4 +1,9 @@
-main {
+.page main {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.resume {
     width: 800px;
     margin: 0 auto;
 }

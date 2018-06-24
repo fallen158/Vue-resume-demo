@@ -18,10 +18,12 @@ button {
     font: initial;
 }
 
-.page {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
+@media (min-width: 500px) {
+    .page {
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+    }
 }
 
 .page>aside {
