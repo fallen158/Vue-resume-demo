@@ -1,0 +1,48 @@
+main {
+    width: 800px;
+    margin: 0 auto;
+}
+
+main .resume h1,
+main .resume h2 {
+    margin: 25px 0;
+    text-align: center;
+}
+
+main>.resume>.character {
+    text-align: center;
+}
+
+main>.resume>.skills>ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+main>.resume>.skills>ul>li {
+    width: 48%;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    padding: 5px 10px;
+}
+
+main>.resume>.project>ul>li {
+    border: 1px solid #ddd;
+    margin: 5px 0;
+    padding: 15px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+main>.resume>.project>ul>li {
+    margin-top: 20px;
+}
+
+main>.resume>.project>ul>li>.message {
+    display: flex;
+    justify-content: space-between;
+}
+
+main>.resume>.project>ul>li>.message .name {
+    padding-right: 10px;
+}
