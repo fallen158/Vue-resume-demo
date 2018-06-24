@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+a {
+    text-decoration: none;
+}
+
 ol,
 ul,
 li {
@@ -16,6 +20,10 @@ body {
 
 button {
     font: initial;
+}
+
+div[v-cloak] {
+    display: none;
 }
 
 @media (min-width: 500px) {
