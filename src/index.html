@@ -23,7 +23,7 @@
                 <button>风格设置</button>
             </div>
             <div class=down>
-                <button>登出账户</button>
+                <button @click="logOut">登出账户</button>
             </div>
         </aside>
         <main>
@@ -97,38 +97,39 @@
         </main>
 
         <div class="login" v-show="loginVisible" v-cloak>
-            <form @submit.prevent="onSubmit">
+            <form @submit.prevent="onSingUp">
                 <h2>登录</h2>
                 <div>
                     <button @click="loginVisible=false">关闭</button>
                 </div>
-                <div class=" row ">
+
+                <div class="row">
                     <label>邮箱</label>
-                    <input type="text ">
+                    <input type="text" v-model="singUp.email">
                 </div>
                 <div class="row ">
                     <label>密码</label>
-                    <input type="text ">
+                    <input type="password" v-model="singUp.passworld">
                 </div>
                 <div>
-                    <button type="submit ">提交</button>
+                    <button type="submit">提交</button>
                     <a href="#" @click=singUpVisible=true,loginVisible=false>注册</a>
                 </div>
             </form>
         </div>
         <div class="singUp " v-show="singUpVisible" v-cloak>
-            <form>
+            <form @submit.prevent="onLogin">
                 <h2>注册</h2>
                 <div>
                     <button @click="singUpVisible=false">关闭</button>
                 </div>
                 <div class="row ">
                     <label>邮箱</label>
-                    <input type="text ">
+                    <input type="text" v-model="login.email">
                 </div>
                 <div class="row ">
                     <label>密码</label>
-                    <input type="text ">
+                    <input type="password" v-model="login.passworld">
                 </div>
                 <div>
                     <button type="submit ">提交</button>
