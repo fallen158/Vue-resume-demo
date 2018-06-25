@@ -4,6 +4,10 @@ var app = new Vue({
         editingName: false,
         loginVisible: false,
         singUpVisible: false,
+        currentUser: {
+            objectId: undefined,
+            email: '',
+        },
         resume: {
             name: "姓名",
             title: "前端开发工程师",
@@ -17,8 +21,8 @@ var app = new Vue({
             passworld: ""
         },
         login: {
-            email: '',
-            passworld: ''
+            email: "",
+            passworld: ""
         }
     },
     methods: {
@@ -29,48 +33,57 @@ var app = new Vue({
             this.loginVisible = true;
         },
         saveResume() {
-            let { id } = AV.User.current()
-            var todo = AV.Object.createWithoutData('User', id);
-            todo.set('resume', this.resume);
+            let { objectId } = AV.User.current().toJSON();
+            var todo = AV.Object.createWithoutData("User", objectId);
+            todo.set("resume", this.resume);
             todo.save().then(() => {
-                alert('保存成功')
-            })
+                alert("保存成功");
+            });
         },
         onSingUp(e) {
-            console.log(this.singUp);
             var user = new AV.User();
             user.setUsername(this.singUp.email);
             user.setPassword(this.singUp.passworld);
             user.setEmail(this.singUp.email);
             user.signUp().then(
-                function(user) {
-                    alert('注册成功');
+                (user) => {
+                    alert("注册成功,已登录");
+                    this.loginVisible = false;
+                    user = user.toJSON()
+                    this.currentUser.objectId = user.objectId
+                    this.currentUser.email = user.email
                 },
                 function(error) {
-                    if (error.code === 125) {
-                        alert('请输入正确邮箱')
-                    }
+                    alert(error.rawMessage)
                 }
             );
         },
         onLogin() {
-            AV.User.logIn(this.login.email, this.login.passworld).then(function(user) {
-                console.log(user);
-            }, function(error) {
-                if (error.code === 211) {
-                    alert('请输入正确的邮箱')
-                } else if (error.code === 210) {
-                    alert('邮箱和密码不匹配')
+            AV.User.logIn(this.login.email, this.login.passworld).then(
+                (user) => {
+                    alert("登录成功");
+                    this.singUpVisible = false;
+                    user = user.toJSON()
+                    this.currentUser.objectId = user.objectId
+                    this.currentUser.email = user.email
+                },
+                error => {
+                    if (error.code === 211) {
+                        alert("请输入正确的邮箱");
+                    } else if (error.code === 210) {
+                        alert("邮箱和密码不匹配");
+                    }
                 }
-            });
+            );
         },
         logOut() {
-            AV.User.logOut();
-            var currentUser = AV.User.current();
+            AV.User.logOut().then(() => {
+                alert("登出成功");
+                window.location.reload()
+            });
         },
         onClickSave() {
             var currentUser = AV.User.current();
-            console.log(currentUser)
             if (!currentUser) {
                 this.showLogin();
             } else {
@@ -79,3 +92,9 @@ var app = new Vue({
         }
     }
 });
+
+let currentUser1 = AV.User.current()
+if (currentUser1) {
+    app.currentUser = currentUser1.toJSON()
+
+}
