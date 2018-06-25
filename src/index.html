@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/eventable-span.css">
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/singUp.css">
+    <link rel="stylesheet" href="css/share.css">
     <title>我的简历生成器</title>
 </head>
 
@@ -18,7 +19,7 @@
         <aside>
             <div class="uper">
                 <button @click="onClickSave">保存简历</button>
-                <button>分享简历</button>
+                <button @click="shareVisible =!shareVisible">分享简历</button>
                 <button>打印简历</button>
                 <button>风格设置</button>
             </div>
@@ -126,6 +127,11 @@
                     <a href="#" @click="singUpVisible=false,loginVisible=true">注册</a>
                 </div>
             </form>
+        </div>
+        <div class="share" v-show="shareVisible">
+            <h2>将下面连接分享给面试官</h2>
+            <textarea readonly>{{shareLink}}</textarea>
+            <div class="closeShare" @click="shareVisible = false">x</div>
         </div>
     </div>
     <script src="vendors/av-min.js "></script>

@@ -4,6 +4,7 @@ var app = new Vue({
         editingName: false,
         loginVisible: false,
         singUpVisible: false,
+        shareVisible: false,
         currentUser: {
             objectId: undefined,
             email: '',
@@ -33,6 +34,9 @@ var app = new Vue({
         login: {
             email: "",
             passworld: ""
+        },
+        shareLink: {
+
         }
     },
     methods: {
@@ -148,4 +152,5 @@ let currentUser1 = AV.User.current()
 if (currentUser1) {
     app.currentUser = currentUser1.toJSON()
     app.getResume()
+    app.shareLink = location.origin + location.pathname + '?user_id=' + app.currentUser.objectId
 }
