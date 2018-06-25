@@ -5,6 +5,7 @@ var app = new Vue({
         loginVisible: false,
         singUpVisible: false,
         shareVisible: false,
+        skinVisible: false,
         currentUser: {
             objectId: undefined,
             email: '',
@@ -41,6 +42,7 @@ var app = new Vue({
         },
         shareLink: '不知道',
         mode: 'edit', //preview
+        addClass: 'defult'
     },
     computed: {
         displayResume() {
@@ -55,6 +57,9 @@ var app = new Vue({
         }
     },
     methods: {
+        replaceSkin(name) {
+            this.addClass = name
+        },
         onEdit(key, value) {
             let reg = /\[(\d+)\]/g
             key = key.replace(reg, (match, number) => {
@@ -162,6 +167,9 @@ var app = new Vue({
                 keywords: '技能',
                 description: '技能描述'
             })
+        },
+        print() {
+            window.print()
         }
     }
 });
@@ -171,7 +179,6 @@ let currentUser1 = AV.User.current()
 if (currentUser1) {
     app.currentUser = currentUser1.toJSON()
     app.shareLink = location.origin + location.pathname + '?user_id=' + app.currentUser.objectId
-    console.log(app.currentUser.objectId)
     app.getResume(app.currentUser).then((resume) => {
         app.resume = resume
 
@@ -187,7 +194,6 @@ if (metches) {
     userId = metches[1]
     app.mode = 'preview'
     app.getResume({ objectId: userId }).then((resume) => {
-        console.log(resume)
         app.previewResume = resume
     })
 }

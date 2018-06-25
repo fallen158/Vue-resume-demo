@@ -57,10 +57,3 @@ div[v-cloak] {
     padding: 5px;
     border-radius: 5px;
 }
-
-.exitPreview {
-    position: absolute;
-    top: 10%;
-    left: 2%;
-    border-radius: 3px;
-}

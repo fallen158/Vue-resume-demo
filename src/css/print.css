@@ -1,0 +1,13 @@
+.page>aside {
+    display: none;
+}
+
+.add,
+.remove,
+.removeSkill {
+    display: none;
+}
+
+main>.resume>.project>ul>.add {
+    display: none;
+}
