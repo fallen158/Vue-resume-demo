@@ -9,6 +9,10 @@ var app = new Vue({
             objectId: undefined,
             email: '',
         },
+        previewUser: {
+            objectId: undefined,
+        },
+        previewResume: {},
         resume: {
             name: "姓名",
             title: "前端开发工程师",
@@ -35,8 +39,19 @@ var app = new Vue({
             email: "",
             passworld: ""
         },
-        shareLink: {
-
+        shareLink: '不知道',
+        mode: 'edit', //preview
+    },
+    computed: {
+        displayResume() {
+            return this.mode === "preview" ? this.previewResume : this.resume;
+        }
+    },
+    watch: {
+        'currentUse.objectId': function(newValue, oldValue) {
+            if (newValue) {
+                this.getResume(this.currentUser)
+            }
         }
     },
     methods: {
@@ -55,6 +70,10 @@ var app = new Vue({
                 }
             }
         },
+        exitPreview() {
+            this.shareLink = location.origin + location.pathname
+            location.href = this.shareLink
+        },
         showLogin(e) {
             this.loginVisible = true;
         },
@@ -66,14 +85,12 @@ var app = new Vue({
                 alert("保存成功");
             });
         },
-        getResume() {
+        getResume(user) {
             var query = new AV.Query('User');
-            query.get(this.currentUser.objectId).then((user) => {
-                user = user.toJSON()
-                this.resume = user.resume
-            }, function(error) {
-
-            });
+            return query.get(user.objectId).then((user) => {
+                let resume = user.toJSON().resume
+                return resume
+            }, function(error) {});
         },
         onSingUp(e) {
             var user = new AV.User();
@@ -101,6 +118,7 @@ var app = new Vue({
                     user = user.toJSON()
                     this.currentUser.objectId = user.objectId
                     this.currentUser.email = user.email
+                    window.location.reload()
                 },
                 error => {
                     if (error.code === 211) {
@@ -148,9 +166,28 @@ var app = new Vue({
     }
 });
 
+//获取当前用户
 let currentUser1 = AV.User.current()
 if (currentUser1) {
     app.currentUser = currentUser1.toJSON()
-    app.getResume()
     app.shareLink = location.origin + location.pathname + '?user_id=' + app.currentUser.objectId
+    console.log(app.currentUser.objectId)
+    app.getResume(app.currentUser).then((resume) => {
+        app.resume = resume
+
+    })
+}
+
+//获取预览用户
+let search = location.search
+let regex = /user_id=([^&]+)/
+let metches = search.match(regex)
+let userId
+if (metches) {
+    userId = metches[1]
+    app.mode = 'preview'
+    app.getResume({ objectId: userId }).then((resume) => {
+        console.log(resume)
+        app.previewResume = resume
+    })
 }

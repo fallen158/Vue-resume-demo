@@ -15,51 +15,51 @@
 </head>
 
 <body>
-    <div class="page" id="app">
-        <aside>
-            <div class="uper">
-                <button @click="onClickSave">保存简历</button>
-                <button @click="shareVisible =!shareVisible">分享简历</button>
+    <div class="page" id="app" v-cloak>
+        <aside v-show="mode==='edit'">
+            <div class="uper ">
+                <button @click="onClickSave ">保存简历</button>
+                <button @click="shareVisible=!shareVisible ">分享简历</button>
                 <button>打印简历</button>
                 <button>风格设置</button>
             </div>
             <div class=down>
-                <button @click="logOut" v-show="!!currentUser.objectId">登出账户</button>
+                <button @click="logOut " v-show="!!currentUser.objectId ">登出账户</button>
             </div>
         </aside>
         <main>
-            <div class="resume">
-                <section class="character">
+            <div class="resume ">
+                <section class="character ">
                     <h1>
-                        <eventale-span :value="resume.name" @edit="onEdit('name',$event)"></eventale-span>
+                        <eventale-span :disabled="mode === 'preview'" :value="displayResume.name " @edit="onEdit( 'name',$event) "></eventale-span>
                     </h1>
                     <p>
                         应聘职位：
-                        <eventale-span :value="resume.title" @edit="onEdit('title',$event)"></eventale-span>
+                        <eventale-span :disabled="mode === 'preview'" :value="displayResume.title " @edit="onEdit( 'title',$event) "></eventale-span>
                     </p>
                     <p>
-                        <eventale-span :value="resume.birthday" @edit="onEdit('birthday',$event)"></eventale-span>
+                        <eventale-span :disabled="mode === 'preview'" :value="displayResume.birthday " @edit="onEdit( 'birthday',$event) "></eventale-span>
                         |
-                        <eventale-span :value="resume.gender" @edit="onEdit('gender',$event)"></eventale-span>
+                        <eventale-span :disabled="mode === 'preview'" :value="displayResume.gender " @edit="onEdit( 'gender',$event) "></eventale-span>
                         |
-                        <eventale-span :value="resume.email" @edit="onEdit('email',$event)"></eventale-span>
+                        <eventale-span :disabled="mode === 'preview'" :value="displayResume.email " @edit="onEdit( 'email',$event) "></eventale-span>
                         |
-                        <eventale-span :value="resume.phone" @edit="onEdit('phone',$event)"></eventale-span>
+                        <eventale-span :disabled="mode === 'preview'" :value="displayResume.phone " @edit="onEdit( 'phone',$event) "></eventale-span>
                     </p>
                 </section>
-                <section class="skills">
+                <section class="skills ">
                     <h2>技能</h2>
                     <ul>
-                        <li v-for="skill,index in resume.skills">
+                        <li v-for="skill,index in displayResume.skills ">
                             <div>
-                                <eventale-span :value="skill.name" @edit="onEdit(`skills[${index}].name`,$event)"></eventale-span>
+                                <eventale-span :disabled="mode === 'preview'" :value="skill.name " @edit="onEdit(`skills[${index}].name`,$event) "></eventale-span>
                             </div>
                             <div>
-                                <eventale-span :value="skill.description" @edit="onEdit(`skills[${index}].description`,$event)"></eventale-span>
+                                <eventale-span :disabled="mode === 'preview'" :value="skill.description " @edit="onEdit(`skills[${index}].description`,$event) "></eventale-span>
                             </div>
-                            <span class="removeSkill" @click="removeSkill" v-if="index>=4">x</span>
+                            <span class="removeSkill " @click="removeSkill " v-if="index>=4" v-show="mode==='edit'">x</span>
                         </li>
-                        <li>
+                        <li v-show="mode==='edit'">
                             <span @click="addSkill()">添加</span>
                         </li>
                     </ul>
@@ -67,20 +67,20 @@
                 <section class="project">
                     <h2>项目经历</h2>
                     <ul>
-                        <li v-for="project,index in resume.projects">
+                        <li v-for="project,index in displayResume.projects">
                             <div class="message">
                                 <div>
                                     <h3 class="name">
-                                        <eventale-span :value="project.name" @edit="onEdit(`projects[${index}].name`,$event)"></eventale-span>
+                                        <eventale-span :disabled="mode === 'preview'" :value="project.name" @edit="onEdit(`projects[${index}].name`,$event)"></eventale-span>
                                     </h3>
-                                    <eventale-span :value="project.link" @edit="onEdit(`projects[${index}].link`,$event)"></eventale-span>
+                                    <eventale-span :disabled="mode === 'preview'" :value="project.link" @edit="onEdit(`projects[${index}].link`,$event)"></eventale-span>
                                     <div @click="removeProject" v-if="index>=2">x</div>
                                 </div>
-                                <eventale-span :value="project.description" @edit="onEdit(`projects[${index}].description`,$event)"></eventale-span>
+                                <eventale-span :disabled="mode === 'preview'" :value="project.description" @edit="onEdit(`projects[${index}].description`,$event)"></eventale-span>
                             </div>
-                            <eventale-span :value="project.keywords" @edit="onEdit(`projects[${index}].keywords`,$event)"></eventale-span>
+                            <eventale-span :disabled="mode === 'preview'" :value="project.keywords" @edit="onEdit(`projects[${index}].keywords`,$event)"></eventale-span>
                         </li>
-                        <li>
+                        <li v-show="mode==='edit'">
                             <span @click="addProject">添加</span>
                         </li>
                     </ul>
@@ -104,13 +104,13 @@
                 </div>
                 <div>
                     <button type="submit">提交</button>
-                    <a href="#" @click=singUpVisible=true,loginVisible=false>登录</a>
+                    <a href="#" @click=singUpVisible=true,loginVisible=false>登陆</a>
                 </div>
             </form>
         </div>
         <div class="singUp " v-show="singUpVisible" v-cloak>
             <form @submit.prevent="onLogin">
-                <h2>登录</h2>
+                <h2>登陆</h2>
                 <div>
                     <button type="button" @click="singUpVisible=false">关闭</button>
                 </div>
@@ -128,11 +128,12 @@
                 </div>
             </form>
         </div>
-        <div class="share" v-show="shareVisible">
+        <div class="share" v-show="shareVisible" v-cloak>
             <h2>将下面连接分享给面试官</h2>
             <textarea readonly>{{shareLink}}</textarea>
             <div class="closeShare" @click="shareVisible = false">x</div>
         </div>
+        <button class="exitPreview" v-if="mode === 'preview'" @click="mode='edit';exitPreview()" v-cloak>退出预览</button>
     </div>
     <script src="vendors/av-min.js "></script>
     <script src="js/av.js "></script>
