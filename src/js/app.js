@@ -14,7 +14,17 @@ var app = new Vue({
             birthday: "19909月9日",
             gender: "男",
             email: "79334424@qqcom",
-            phone: "123456789"
+            phone: "123456789",
+            skills: [
+                { name: '请填写技能名称', description: '请填写技能描述' },
+                { name: '请填写技能名称', description: '请填写技能描述' },
+                { name: '请填写技能名称', description: '请填写技能描述' },
+                { name: '请填写技能名称', description: '请填写技能描述' }
+            ],
+            projects: [
+                { name: '请填写项目名称', link: 'http://...', keywords: '技能', description: '技能描述' },
+                { name: '请填写项目名称', link: 'http://...', keywords: '技能', description: '技能描述' }
+            ],
         },
         singUp: {
             email: "",
@@ -27,7 +37,19 @@ var app = new Vue({
     },
     methods: {
         onEdit(key, value) {
-            this.resume[key] = value;
+            let reg = /\[(\d+)\]/g
+            key = key.replace(reg, (match, number) => {
+                return '.' + number
+            })
+            keys = key.split(".");
+            let result = this.resume;
+            for (let i = 0; i < keys.length; i++) {
+                if (i === keys.length - 1) {
+                    result[keys[i]] = value;
+                } else {
+                    result = result[keys[i]];
+                }
+            }
         },
         showLogin(e) {
             this.loginVisible = true;
@@ -38,6 +60,15 @@ var app = new Vue({
             todo.set("resume", this.resume);
             todo.save().then(() => {
                 alert("保存成功");
+            });
+        },
+        getResume() {
+            var query = new AV.Query('User');
+            query.get(this.currentUser.objectId).then((user) => {
+                user = user.toJSON()
+                this.resume = user.resume
+            }, function(error) {
+
             });
         },
         onSingUp(e) {
@@ -89,6 +120,26 @@ var app = new Vue({
             } else {
                 this.saveResume();
             }
+        },
+        removeSkill(index) {
+            this.resume.skills.splice(index, 1)
+        },
+        addSkill() {
+            this.resume.skills.push({
+                name: '请填写技能名称',
+                description: '请填写技能描述'
+            })
+        },
+        removeProject(index) {
+            this.resume.projects.splice(index, 1)
+        },
+        addProject() {
+            this.resume.projects.push({
+                name: '请填写项目名称',
+                link: 'http://...',
+                keywords: '技能',
+                description: '技能描述'
+            })
         }
     }
 });
@@ -96,5 +147,5 @@ var app = new Vue({
 let currentUser1 = AV.User.current()
 if (currentUser1) {
     app.currentUser = currentUser1.toJSON()
-
+    app.getResume()
 }

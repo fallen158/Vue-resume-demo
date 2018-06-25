@@ -49,46 +49,38 @@
                 <section class="skills">
                     <h2>技能</h2>
                     <ul>
-                        <li>
-                            <div>请填写技能名称</div>
-                            <div>请填写技能描述</div>
+                        <li v-for="skill,index in resume.skills">
+                            <div>
+                                <eventale-span :value="skill.name" @edit="onEdit(`skills[${index}].name`,$event)"></eventale-span>
+                            </div>
+                            <div>
+                                <eventale-span :value="skill.description" @edit="onEdit(`skills[${index}].description`,$event)"></eventale-span>
+                            </div>
+                            <span class="removeSkill" @click="removeSkill" v-if="index>=4">x</span>
                         </li>
                         <li>
-                            <div>请填写技能名称</div>
-                            <div>请填写技能描述</div>
-                        </li>
-                        <li>
-                            <div>请填写技能名称</div>
-                            <div>请填写技能描述</div>
-                        </li>
-                        <li>
-                            <div>请填写技能名称</div>
-                            <div>请填写技能描述</div>
+                            <span @click="addSkill()">添加</span>
                         </li>
                     </ul>
                 </section>
                 <section class="project">
                     <h2>项目经历</h2>
                     <ul>
-                        <li>
+                        <li v-for="project,index in resume.projects">
                             <div class="message">
                                 <div>
-                                    <h3 class="name">请填写项目名称</h3>
-                                    <span class="link">http://...</span>
+                                    <h3 class="name">
+                                        <eventale-span :value="project.name" @edit="onEdit(`projects[${index}].name`,$event)"></eventale-span>
+                                    </h3>
+                                    <eventale-span :value="project.link" @edit="onEdit(`projects[${index}].link`,$event)"></eventale-span>
+                                    <div @click="removeProject" v-if="index>=2">x</div>
                                 </div>
-                                <div class="keywords">技能描述</div>
+                                <eventale-span :value="project.description" @edit="onEdit(`projects[${index}].description`,$event)"></eventale-span>
                             </div>
-                            <div class="description">技能</div>
+                            <eventale-span :value="project.keywords" @edit="onEdit(`projects[${index}].keywords`,$event)"></eventale-span>
                         </li>
                         <li>
-                            <div class="message">
-                                <div>
-                                    <h3 class="name">请填写项目名称</h3>
-                                    <span class="link">http://...</span>
-                                </div>
-                                <div class="keywords">技能描述</div>
-                            </div>
-                            <div class="description">技能</div>
+                            <span @click="addProject">添加</span>
                         </li>
                     </ul>
                 </section>
@@ -141,7 +133,6 @@
     <script src="vendors/vue.js "></script>
     <script src="js/eventable-span.js "></script>
     <script src="js/app.js "></script>
-
     <script>
     </script>
 </body>
