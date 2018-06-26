@@ -11,6 +11,7 @@ Vue.component('resume', {
             for (let i = 0; i < keys.length; i++) {
                 if (i === keys.length - 1) {
                     result[keys[i]] = value;
+                    console.log(result[keys[i]])
                 } else {
                     result = result[keys[i]];
                 }
@@ -63,10 +64,10 @@ Vue.component('resume', {
         <ul>
             <li v-for="skill,index in displayResume.skills ">
                 <div>
-                    <eventale-span :disabled="mode === 'preview'" :resume='resume' :value="skill.name " @edit="onEdit('skills[+index+].name ',$event) "></eventale-span>
+                    <eventale-span :disabled="mode === 'preview'" :resume='resume' :value="skill.name " @edit="onEdit('skills['+index+'].name', $event)"></eventale-span>
                 </div>
                 <div>
-                    <eventale-span :disabled="mode === 'preview'" :value="skill.description " @edit="onEdit('skills[+index+].description',$event) "></eventale-span>
+                    <eventale-span :disabled="mode === 'preview'" :value="skill.description " @edit="onEdit('skills['+index+'].description',$event)"></eventale-span>
                 </div>
                 <span class="removeSkill " @click="removeSkill " v-if="index>=4" v-show="mode==='edit'">x</span>
             </li>
@@ -82,14 +83,14 @@ Vue.component('resume', {
                 <div class="message">
                     <div>
                         <h3 class="name">
-                            <eventale-span :disabled="mode === 'preview'" :value="project.name" @edit="onEdit('projects[+index+].name ',$event)"></eventale-span>
+                            <eventale-span :disabled="mode === 'preview'" :value="project.name" @edit="onEdit('projects['+index+'].name',$event)"></eventale-span>
                         </h3>
-                        <eventale-span :disabled="mode === 'preview'" :value="project.link" @edit="onEdit('projects[+index+].link ',$event)"></eventale-span>
+                        <eventale-span :disabled="mode === 'preview'" :value="project.link" @edit="onEdit('projects['+index+'].link',$event)"></eventale-span>
                         <div @click="removeProject" v-if="index>=2" class="remove" v-show="mode==='edit'">x</div>
                     </div>
-                    <eventale-span :disabled="mode === 'preview'" :value="project.description" @edit="onEdit('projects[+ index +].description ',$event)"></eventale-span>
+                    <eventale-span :disabled="mode === 'preview'" :value="project.description" @edit="onEdit('projects['+index+'].description',$event)"></eventale-span>
                 </div>
-                <eventale-span :disabled="mode === 'preview'" :value="project.keywords" @edit="onEdit('projects[+ndex+].keywords ',$event)"></eventale-span>
+                <eventale-span :disabled="mode === 'preview'" :value="project.keywords" @edit="onEdit('projects['+index+'].keywords',$event)"></eventale-span>
             </li>
             <li class="add" v-show="mode==='edit'">
                 <span @click="addProject">添加</span>
