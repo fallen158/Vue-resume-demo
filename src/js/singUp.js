@@ -12,7 +12,6 @@ window.singUp={
             AV.User.logIn(this.login.email, this.login.passworld).then(
                 (user) => {
                     alert("登录成功");
-                    this.$router.push({path:'/'});
                     user = user.toJSON()
                     this.$emit('singUp', user)
                     window.location.reload()
