@@ -20,21 +20,13 @@
 </head>
 
 <body>
-    <div class="page" id="app" v-cloak>
-        <app-aside v-show="mode==='edit'" @click-save="onClickSave" @click-share="shareVisible = !shareVisible" @click-skin="skinVisible= !skinVisible"></app-aside>
-        <main>
-            <resume :mode="mode" :display-resume="displayResume" :resume='resume'></resume>
-        </main>
-        <login v-show="loginVisible" @gologin="loginVisible=false;singUpVisible=true" @close="loginVisible=false" @login="getLogin"></login>
-        </login>
-        <sing-Up v-show="singUpVisible" @gosingup="singUpVisible=false,loginVisible=true" @close="singUpVisible=false" @singUp="getSingUp"></sing-up>
-        <share v-show="shareVisible" :share-Link='shareLink' @close="shareVisible = false"></share>
-        <button class="exitPreview" v-if="mode === 'preview'" @click="mode='edit';exitPreview()" v-cloak>退出预览</button>
-        <skin v-show="skinVisible" @close="skinVisible=false"></skin>
+    <div id="app" v-cloak>
+        <router-view :mode="mode" :share-Link="shareLink" :resume="resume" :preview-Resume="previewResume"></router-view>
     </div>
     <script src="vendors/av-min.js "></script>
     <script src="js/av.js "></script>
     <script src="vendors/vue.min.js "></script>
+    <script src="vendors/vue-router.min.js"></script>
     <script src="js/app-aside.js"></script>
     <script src="js/resume.js"></script>
     <script src="js/login.js"></script>
@@ -42,7 +34,8 @@
     <script src="js/share.js"></script>
     <script src="js/skin.js"></script>
     <script src="js/eventable-span.js "></script>
-    <script src="js/app.js "></script>
+    <script src="js/app.js"></script>
+    <script src="js/router.js"></script>
     <script>
     </script>
 </body>

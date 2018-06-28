@@ -1,4 +1,4 @@
-Vue.component('login', {
+window.login = {
     data() {
         return {
             singUp: {
@@ -16,16 +16,14 @@ Vue.component('login', {
             user.signUp().then(
                 (user) => {
                     alert("注册成功,已登陆");
-                    user = user.toJSON()
+                    this.$router.push({path:'/'});
                     this.$emit('login', user)
+                    user = user.toJSON()
                 },
                 function(error) {
                     alert(error.rawMessage)
                 }
             );
-        },
-        onClickSingUp() {
-            this.$emit('gologin')
         }
     },
     template: `
@@ -33,7 +31,7 @@ Vue.component('login', {
             <form @submit.prevent="onSingUp">
                 <h2>注册</h2>
                 <div>
-                    <button type="button" @click="$emit('close')">关闭</button>
+                <router-link to="/">关闭</router-link>
                 </div>
                 <div class="row">
                     <label>邮箱</label>
@@ -45,9 +43,10 @@ Vue.component('login', {
                 </div>
                 <div>
                     <button type="submit">提交</button>
-                    <button type="button" @click="onClickSingUp">登陆</button>
+                    <router-link to="/singUp">登陆</router-link>
                 </div>
             </form>
         </div>
     `
-})
+}
+Vue.component('login', window.login)
