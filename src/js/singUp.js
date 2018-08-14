@@ -1,4 +1,4 @@
-window.singUp={
+window.singUp = {
     data() {
         return {
             login: {

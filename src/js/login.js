@@ -1,34 +1,34 @@
 window.login = {
-  data() {
-    return {
-      singUp: {
-        email: "",
-        passworld: ""
-      }
-    };
-  },
-  methods: {
-    onSingUp(e) {
-      var user = new AV.User();
-      user.setUsername(this.singUp.email);
-      user.setPassword(this.singUp.passworld);
-      user.setEmail(this.singUp.email);
-      user.signUp().then(
-        user => {
-          alert("注册成功,已登陆");
-          this.$router.push({ path: "/" });
-          if(location.hash === '#/'){
-            this.$emit("login", user);
-            user = user.toJSON();
-          }
-        },
-        function(error) {
-          alert(error.rawMessage);
+    data() {
+        return {
+            singUp: {
+                email: "",
+                passworld: ""
+            }
+        };
+    },
+    methods: {
+        onSingUp(e) {
+            var user = new AV.User();
+            user.setUsername(this.singUp.email);
+            user.setPassword(this.singUp.passworld);
+            user.setEmail(this.singUp.email);
+            user.signUp().then(
+                user => {
+                    alert("注册成功,已登陆");
+                    this.$router.go('{ path: "/" }');
+                    if (location.hash === '#/') {
+                        this.$emit("login", user);
+                        user = user.toJSON();
+                    }
+                },
+                function(error) {
+                    alert(error.rawMessage);
+                }
+            );
         }
-      );
-    }
-  },
-  template: `
+    },
+    template: `
         <div class="login"  v-cloak>
             <form @submit.prevent="onSingUp">
                 <h2>注册</h2>

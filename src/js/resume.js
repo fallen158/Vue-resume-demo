@@ -64,7 +64,7 @@ Vue.component('resume', {
         <ul>
             <li v-for="skill,index in displayResume.skills ">
                 <div>
-                    <eventale-span :disabled="mode === 'preview'" :resume='resume' :value="skill.name " @edit="onEdit('skills['+index+'].name', $event)"></eventale-span>
+                    <eventale-span :disabled="mode === 'preview'" :resume='resume' :value="skill.name " @edit="onEdit('skills['+index+'].name',$event)"></eventale-span>
                 </div>
                 <div>
                     <eventale-span :disabled="mode === 'preview'" :value="skill.description " @edit="onEdit('skills['+index+'].description',$event)"></eventale-span>
